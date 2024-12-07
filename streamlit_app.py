@@ -1,5 +1,7 @@
 import streamlit as st
 import time
+st.title("永久的に数字をかけるアプリ！！")
+st.write("初めの数を入力してかける数も入力してください")
 
 # 初期化: session_stateに数字が保存されていない場合、初期値を設定
 if 'number' not in st.session_state:
