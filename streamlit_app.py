@@ -1,23 +1,19 @@
 import streamlit as st
 import time
 
-# セッションステートの初期化
-if 'history' not in st.session_state:
-    st.session_state.history = []
+# 初期化: session_stateに数字が保存されていない場合、初期値を設定
+if 'number' not in st.session_state:
+    st.session_state.number = 1  # 初期値として1を設定
 
-# ユーザーからの入力を取得
-prompt = st.chat_input("Say something")
+# ユーザーからの数字入力を受け取る
+user_input = st.number_input("数字を入力してください:", min_value=1, value=st.session_state.number)
 
-# ユーザーが入力した場合、その内容と応答を保存
-if prompt:
-    # ユーザーからの発言を履歴に即座に追加
-    st.session_state.history.append(f"あなたからの発言: {prompt}")
-    
-    # ゴリ押し信者からの応答を1秒後に追加
-    with st.spinner('ゴリ押し信者が考えています...'):
-        time.sleep(1)
-    st.session_state.history.append(":red[ゴリ押し信者からの回答: 力こそpower]")
+# 数字が変更された場合、その値をセッション状態に保存
+if user_input != st.session_state.number:
+    st.session_state.number = user_input
 
-# 履歴を表示
-for message in st.session_state.history:
-    st.write(message)
+# 数字を永遠に2倍して表示
+while True:
+    st.write(f"現在の数字: {st.session_state.number}")
+    st.session_state.number *= 2
+    time.sleep(1)  # 1秒待機
