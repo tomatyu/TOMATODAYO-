@@ -16,7 +16,7 @@ if prompt:
     # ゴリ押し信者からの応答を1秒後に追加
     with st.spinner('ゴリ押し信者が考えています...'):
         time.sleep(1)
-    st.session_state.history.append("ゴリ押し信者からの回答: 力こそpower")
+    st.session_state.history.append("red:ゴリ押し信者からの回答: 力こそpower")
 
 # 履歴を表示
 for message in st.session_state.history:
