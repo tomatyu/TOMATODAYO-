@@ -25,8 +25,8 @@ st.title('じゃんけんゲーム')
 # ユーザーに手を選ばせる
 user_choice = st.radio('あなたの手を選んでください:', choices)
 
-# 「プレイ」ボタンがクリックされたときの処理
-if st.button('プレイ'):
+# ユーザーが手を選んだ後に即座に結果を表示
+if user_choice:
     # コンピュータの選択を取得
     comp_choice = computer_choice()
 
