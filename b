@@ -1,23 +1,30 @@
 import streamlit as st
 import time
+st.title("無限に数字をかけるアプリ！！")
+st.write("初めの数を入力してかける数も入力してください")
 
-# セッションステートの初期化
-if 'history' not in st.session_state:
-    st.session_state.history = []
+# 初期化: session_stateに数字が保存されていない場合、初期値を設定
+if 'number' not in st.session_state:
+    st.session_state.number = 1  # 初期値を1に設定
 
-# ユーザーからの入力を取得
-prompt = st.chat_input("Say something")
+# ユーザーからの入力を受け取る
+user_input = st.number_input("数字を入力してください:", min_value=1, value=max(st.session_state.number, 1))
+multiple_input = st.number_input("倍数を入力してください:", min_value=1, value=2)  # 倍数を入力するための追加フィールド
 
-# ユーザーが入力した場合、その内容と応答を保存
-if prompt:
-    # ユーザーからの発言を履歴に即座に追加
-    st.session_state.history.append(f"あなたからの発言: {prompt}")
+# 数字が変更された場合、その値をセッション状態に保存
+if user_input != st.session_state.number:
+    st.session_state.number = user_input
+
+# 数字を表示するためのエリアを作成
+display_area = st.empty()
+
+# 数字を指定された倍数で増やして1行に表示
+while True:
+    # 表示エリアを更新
+    display_area.write(f"現在の数字: {st.session_state.number}")
     
-    # ゴリ押し信者からの応答を1秒後に追加
-    with st.spinner('ゴリ押し信者が考えています...'):
-        time.sleep(1)
-    st.session_state.history.append(":red[ゴリ押し信者からの回答: 力こそpower]")
-
-# 履歴を表示
-for message in st.session_state.history:
-    st.write(message)
+    # 数字を倍数で更新
+    st.session_state.number *= multiple_input
+    
+    # 1秒間待機
+    time.sleep(1)

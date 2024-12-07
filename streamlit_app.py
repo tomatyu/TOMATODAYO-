@@ -1,30 +1,55 @@
 import streamlit as st
-import time
-st.title("無限に数字をかけるアプリ！！")
-st.write("初めの数を入力してかける数も入力してください")
+import random
 
-# 初期化: session_stateに数字が保存されていない場合、初期値を設定
-if 'number' not in st.session_state:
-    st.session_state.number = 1  # 初期値を1に設定
+# ゲームの選択肢
+choices = ['グー', 'チョキ', 'パー']
 
-# ユーザーからの入力を受け取る
-user_input = st.number_input("数字を入力してください:", min_value=1, value=max(st.session_state.number, 1))
-multiple_input = st.number_input("倍数を入力してください:", min_value=1, value=2)  # 倍数を入力するための追加フィールド
+# コンピュータの手をランダムに選択
+def computer_choice():
+    return random.choice(choices)
 
-# 数字が変更された場合、その値をセッション状態に保存
-if user_input != st.session_state.number:
-    st.session_state.number = user_input
+# 勝敗判定
+def determine_winner(user, computer):
+    if user == computer:
+        return '引き分け'
+    elif (user == 'グー' and computer == 'チョキ') or \
+         (user == 'チョキ' and computer == 'パー') or \
+         (user == 'パー' and computer == 'グー'):
+        return 'あなたの勝ち'
+    else:
+        return 'コンピュータの勝ち'
 
-# 数字を表示するためのエリアを作成
-display_area = st.empty()
+# ストリームリットのUI部分
+st.title('じゃんけんゲーム')
 
-# 数字を指定された倍数で増やして1行に表示
-while True:
-    # 表示エリアを更新
-    display_area.write(f"現在の数字: {st.session_state.number}")
-    
-    # 数字を倍数で更新
-    st.session_state.number *= multiple_input
-    
-    # 1秒間待機
-    time.sleep(1)
+# セッションステートの初期化
+if 'user_choice' not in st.session_state:
+    st.session_state.user_choice = None
+
+# ボタンを使って選択
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    if st.button('グー'):
+        st.session_state.user_choice = 'グー'
+
+with col2:
+    if st.button('チョキ'):
+        st.session_state.user_choice = 'チョキ'
+
+with col3:
+    if st.button('パー'):
+        st.session_state.user_choice = 'パー'
+
+# ユーザーが手を選んだ後に即座に結果を表示
+if st.session_state.user_choice:
+    # コンピュータの選択を取得
+    comp_choice = computer_choice()
+
+    # 勝敗判定
+    result = determine_winner(st.session_state.user_choice, comp_choice)
+
+    # 結果を表示
+    st.write(f'あなたの手: {st.session_state.user_choice}')
+    st.write(f'コンピュータの手: {comp_choice}')
+    st.write(f'結果: {result}')
