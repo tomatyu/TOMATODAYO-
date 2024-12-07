@@ -26,7 +26,7 @@ st.title('じゃんけんゲーム')
 user_choice = st.radio('あなたの手を選んでください:', choices)
 
 # 「プレイ」ボタンがクリックされたときの処理
-if user_choice == st.radio('あなたの手を選んでください:', choices):
+if st.button('プレイ'):
     # コンピュータの選択を取得
     comp_choice = computer_choice()
 
