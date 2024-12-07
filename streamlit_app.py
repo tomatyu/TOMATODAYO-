@@ -1,12 +1,12 @@
 import streamlit as st
 import time
 
-# 初期値の設定
+# 初期化: session_stateに数字が保存されていない場合、初期値を設定
 if 'number' not in st.session_state:
     st.session_state.number = 1  # 初期値を1に設定
 
 # ユーザーからの入力を受け取る
-user_input = st.number_input("数字を入力してください:", min_value=1, value=st.session_state.number)
+user_input = st.number_input("数字を入力してください:", min_value=1, value=max(st.session_state.number, 1))
 
 # 数字が変更された場合、その値をセッション状態に保存
 if user_input != st.session_state.number:
