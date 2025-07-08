@@ -1,1 +1,2 @@
-print("この野郎！")
+inport streamlit as st
+st.write("この野郎！")
